@@ -334,10 +334,12 @@ function parseQuizMarkdown(md) {
 // --- Kvíz oldal módosítása ---
 async function showQuizPage() {
   // Kérdések betöltése a markdownból
-  const questions = await loadQuizFromMarkdown();
+  let questions = await loadQuizFromMarkdown();
   let current = 0;
   let score = 0;
   let reportedQuestions = [];
+  let skippedQuestions = [];
+  let answered = Array(questions.length).fill(false);
 
   const content = document.getElementById('content');
   content.innerHTML = '';
@@ -353,9 +355,14 @@ async function showQuizPage() {
         <h2>Kvíz kérdés ${current + 1} / ${questions.length}</h2>
         <p style="font-size:1.2rem; margin-bottom:1.5rem;">${q.question}</p>
         <div id="quiz-options">
-          ${q.options.map((opt, i) => `<button class="quiz-option" data-idx="${i}">${opt}</button>`).join('')}
+          ${q.options.map((opt, i) => `<button class="quiz-option" data-idx="${i}" ${answered[current] ? 'disabled' : ''}>${opt}</button>`).join('')}
         </div>
         <div id="quiz-feedback" style="margin-top:1.2rem; min-height:2em;"></div>
+        <div style="margin-top:1.5rem; display:flex; gap:1em;">
+          <button id="prev-question" ${current === 0 ? 'disabled' : ''}>Előző</button>
+          <button id="skip-question">Későbbre teszem</button>
+          <button id="next-question" ${current === questions.length - 1 ? 'disabled' : ''}>Következő</button>
+        </div>
         <button id="report-question" class="quiz-report-btn" style="margin-top:1.5rem; background:#b71c1c; color:#fff; border:none; border-radius:8px; padding:0.5rem 1.2rem; cursor:pointer;">Jelentem (értelmetlen kérdés)</button>
       </div>
     `;
@@ -363,6 +370,19 @@ async function showQuizPage() {
       btn.onclick = () => checkAnswer(btn.textContent);
     });
     document.getElementById('report-question').onclick = () => reportCurrentQuestion();
+    document.getElementById('skip-question').onclick = () => skipCurrentQuestion();
+    document.getElementById('prev-question').onclick = () => {
+      if (current > 0) {
+        current--;
+        renderQuestion();
+      }
+    };
+    document.getElementById('next-question').onclick = () => {
+      if (current < questions.length - 1) {
+        current++;
+        renderQuestion();
+      }
+    };
   }
 
   function checkAnswer(selected) {
@@ -374,15 +394,49 @@ async function showQuizPage() {
     } else {
       feedback.innerHTML = `<span style="color:#b71c1c;font-weight:bold;">❌ Helytelen!</span> Helyes válasz: <b>${q.answer}</b>`;
     }
+    answered[current] = true;
+    document.querySelectorAll('.quiz-option').forEach(btn => btn.disabled = true);
     setTimeout(() => {
-      current++;
-      renderQuestion();
+      if (current < questions.length - 1) {
+        current++;
+        renderQuestion();
+      } else if (skippedQuestions.length > 0) {
+        // Ha vannak elhalasztott kérdések, azokat a végére tesszük
+        questions = questions.concat(skippedQuestions);
+        answered = answered.concat(Array(skippedQuestions.length).fill(false));
+        skippedQuestions = [];
+        current++;
+        renderQuestion();
+      } else {
+        showResult();
+      }
     }, 1200);
+  }
+
+  function skipCurrentQuestion() {
+    skippedQuestions.push(questions[current]);
+    answered.push(false);
+    questions.splice(current, 1);
+    answered.splice(current, 1);
+    if (current >= questions.length) {
+      if (skippedQuestions.length > 0) {
+        questions = questions.concat(skippedQuestions);
+        answered = answered.concat(Array(skippedQuestions.length).fill(false));
+        skippedQuestions = [];
+        current = questions.length - skippedQuestions.length;
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    } else {
+      renderQuestion();
+    }
   }
 
   function reportCurrentQuestion() {
     reportedQuestions.push(current);
     questions.splice(current, 1);
+    answered.splice(current, 1);
     if (current >= questions.length) {
       showResult();
     } else {
@@ -403,6 +457,8 @@ async function showQuizPage() {
       current = 0;
       score = 0;
       reportedQuestions = [];
+      skippedQuestions = [];
+      answered = Array(questions.length).fill(false);
       renderQuestion();
     };
   }
