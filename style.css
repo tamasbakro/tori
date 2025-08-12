@@ -1,3 +1,5 @@
+:root { --header-h: 56px; }
+
 body {
   margin: 0;
   font-family: 'Segoe UI', Arial, sans-serif;
@@ -17,8 +19,8 @@ body {
   padding: 2rem 1rem 1rem 1.5rem;
   box-shadow: 2px 0 12px #36241744;
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
   overflow-y: auto;
 }
 
@@ -212,3 +214,57 @@ body {
   background: #92817a;
   color: #fffbff;
 } 
+
+/* Header / Footer / Cookie banner */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  background: #000500;
+  border-bottom: 1px solid #92817a33;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: var(--header-h);
+  box-sizing: border-box;
+}
+.site-brand { color: #f1dabf; font-weight: 600; }
+.site-nav a {
+  color: #f1dabf;
+  margin-left: 1rem;
+  text-decoration: none;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+}
+.site-nav a:hover { background: #92817a33; color: #fffbff; }
+
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-top: 1px solid #92817a33;
+  background: #000500;
+  color: #f1dabf;
+}
+.site-footer .footer-links a { color: #f1dabf; margin-left: 1rem; text-decoration: none; }
+.site-footer .footer-links a:hover { text-decoration: underline; }
+
+.cookie-banner {
+  position: fixed;
+  left: 1rem; right: 1rem; bottom: 1rem;
+  z-index: 2000;
+  background: #fffbff; color: #362417;
+  border: 1.5px solid #f1dabf; border-radius: 12px;
+  padding: 1rem; box-shadow: 0 2px 16px #92817a55;
+  max-width: 900px; margin: 0 auto;
+}
+.cookie-banner p { margin: 0 0 0.8rem 0; }
+.cookie-actions { display: flex; gap: 0.6rem; }
+.cookie-actions button {
+  background: #362417; color: #f1dabf; border: none;
+  border-radius: 8px; padding: 0.6rem 1rem; cursor: pointer;
+}
+.cookie-actions .secondary { background: #92817a; color: #fffbff; }
