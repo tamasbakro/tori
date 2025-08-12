@@ -8,6 +8,16 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <header class="site-header">
+      <div class="site-brand">📚 Érettségire</div>
+    <nav class="site-nav">
+      <a href="index.html">Kezdőlap</a>
+      <a href="about.html">Rólunk</a>
+      <a href="contact.html">Kapcsolat</a>
+      <a href="privacy.html">Adatvédelem</a>
+      <a href="terms.html">Felhasználási feltételek</a>
+    </nav>
+  </header>
   <main id="content">
     <div class="card">
       <p><a href="index.html">← Vissza a kezdőlapra</a></p>
@@ -16,6 +26,36 @@
       <p>A tartalmak engedély nélküli terjesztése tilos.</p>
     </div>
   </main>
-</body>
-</html>
-
+  <footer class="site-footer">
+    <div>© <span id="year"></span> advdio.me</div>
+    <div class="footer-links">
+      <a href="privacy.html">Adatvédelem</a>
+    </div>
+  </footer>
+  <div id="cookie-banner" class="cookie-banner" hidden>
+    <p>Az oldal sütiket és Google AdSense hirdetéseket használ. Részletek az
+      <a href="privacy.html">Adatvédelmi tájékoztatóban</a>.
+    </p>
+    <div class="cookie-actions">
+      <button id="cookie-accept">Elfogadom</button>
+      <button id="cookie-decline" class="secondary">Elutasítom</button>
+    </div>
+  </div>
+  <script>
+    (function(){
+      var y=document.getElementById('year'); if(y){ y.textContent=new Date().getFullYear(); }
+      function loadAds(){
+        if(document.querySelector('script[data-adsbygoogle]')) return;
+        var s=document.createElement('script'); s.async=true; s.setAttribute('data-adsbygoogle','true');
+        s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5183890456253667'; s.crossOrigin='anonymous';
+        document.head.appendChild(s);
+      }
+      var key='consent.ads', banner=document.getElementById('cookie-banner');
+      if(localStorage.getItem(key)==='yes'){ loadAds(); } else if(banner){ banner.hidden=false; }
+      var a=document.getElementById('cookie-accept'), d=document.getElementById('cookie-decline');
+      a && a.addEventListener('click',function(){ localStorage.setItem(key,'yes'); banner.hidden=true; loadAds(); });
+      d && d.addEventListener('click',function(){ localStorage.setItem(key,'no'); banner.hidden=true; });
+    })();
+  </script>
+  </body>
+  </html>
