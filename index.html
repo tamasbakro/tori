@@ -84,7 +84,22 @@
       var banner=document.getElementById('cookie-banner');
       var accept=document.getElementById('cookie-accept');
       var decline=document.getElementById('cookie-decline');
+<<<<<<< HEAD
       if(hasConsent()){ loadAds(); } else if(banner){ banner.hidden=false; }
+=======
+      function tryEnableAdsWhenContentReady(){
+        if(!hasConsent()) return;
+        var contentEl=document.getElementById('content');
+        if(contentEl && contentEl.textContent.trim().length > 60){ loadAds(); return true; }
+        return false;
+      }
+      if(!hasConsent() && banner){ banner.hidden=false; }
+      if(hasConsent()){
+        if(!tryEnableAdsWhenContentReady()){
+          window.addEventListener('content:ready', tryEnableAdsWhenContentReady, { once:true });
+        }
+      }
+>>>>>>> origin/feature/adsense-compliance
       accept && accept.addEventListener('click',function(){ setConsent(true); banner.hidden=true; loadAds(); });
       decline && decline.addEventListener('click',function(){ setConsent(false); banner.hidden=true; });
     })();

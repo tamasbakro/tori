@@ -63,8 +63,26 @@
         s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5183890456253667'; s.crossOrigin='anonymous';
         document.head.appendChild(s);
       }
+<<<<<<< HEAD
       var key='consent.ads', banner=document.getElementById('cookie-banner');
       if(localStorage.getItem(key)==='yes'){ loadAds(); } else if(banner){ banner.hidden=false; }
+=======
+      function tryEnableAds(){
+        var key='consent.ads';
+        if(localStorage.getItem(key)==='yes'){
+          var contentEl=document.getElementById('content');
+          if(contentEl && contentEl.textContent.trim().length > 60){ loadAds(); return true; }
+        }
+        return false;
+      }
+      var key='consent.ads', banner=document.getElementById('cookie-banner');
+      if(!localStorage.getItem(key) && banner){ banner.hidden=false; }
+      if(localStorage.getItem(key)==='yes'){
+        if(!tryEnableAds()){
+          window.addEventListener('content:ready', tryEnableAds, { once:true });
+        }
+      }
+>>>>>>> origin/feature/adsense-compliance
       var a=document.getElementById('cookie-accept'), d=document.getElementById('cookie-decline');
       a && a.addEventListener('click',function(){ localStorage.setItem(key,'yes'); banner.hidden=true; loadAds(); });
       d && d.addEventListener('click',function(){ localStorage.setItem(key,'no'); banner.hidden=true; });

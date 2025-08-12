@@ -122,6 +122,7 @@ function showLesson(chapterIdx, lessonIdx) {
       <div class="lesson-body">${window.marked ? marked.parse(lesson.content) : lesson.content}</div>
     </div>
   `;
+  try { window.dispatchEvent(new CustomEvent('content:ready')); } catch (e) {}
 }
 
 // --- Adminpanel titkos elérés: 5 gyors katt a címre ---
@@ -366,6 +367,7 @@ async function showQuizPage() {
         <button id="report-question" class="quiz-report-btn" style="margin-top:1.5rem; background:#b71c1c; color:#fff; border:none; border-radius:8px; padding:0.5rem 1.2rem; cursor:pointer;">Jelentem (értelmetlen kérdés)</button>
       </div>
     `;
+    try { window.dispatchEvent(new CustomEvent('content:ready')); } catch (e) {}
     document.querySelectorAll('.quiz-option').forEach(btn => {
       btn.onclick = () => checkAnswer(btn.textContent);
     });
@@ -453,6 +455,7 @@ async function showQuizPage() {
         <button id="quiz-restart" style="margin-top:1.5rem;">Újra próbálom</button>
       </div>
     `;
+    try { window.dispatchEvent(new CustomEvent('content:ready')); } catch (e) {}
     document.getElementById('quiz-restart').onclick = () => {
       current = 0;
       score = 0;
@@ -512,6 +515,7 @@ async function showAdminPanel() {
     </div>
     <button id="admin-hide" style="margin-top:2rem;">Adminpanel elrejtése</button>
   </div>`;
+  try { window.dispatchEvent(new CustomEvent('content:ready')); } catch (e) {}
   renderAdminQuestions();
   renderAdminLessons();
   document.getElementById('admin-hide').onclick = () => {
