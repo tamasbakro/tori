@@ -27,6 +27,12 @@
       <p>Elérhetőség: <a href="contact.html">Kapcsolat</a> · <a href="privacy.html">Adatvédelem</a> · <a href="terms.html">Felhasználási feltételek</a></p>
     </div>
   </main>
+  <ins class="adsbygoogle"
+       style="display:block; text-align:center; margin: 1rem 0;"
+       data-ad-layout="in-article"
+       data-ad-format="fluid"
+       data-ad-client="ca-pub-5183890456253667"
+       data-ad-slot="7087457333"></ins>
   <footer class="site-footer">
     <div>© <span id="year"></span> advdio.me</div>
     <div class="footer-links">
@@ -54,18 +60,20 @@
         var s=document.createElement('script');
         s.async=true; s.setAttribute('data-adsbygoogle','true');
         s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5183890456253667';
-        s.crossOrigin='anonymous'; document.head.appendChild(s);
+        s.crossOrigin='anonymous';
+        s.onload=function(){ renderAds(); };
+        document.head.appendChild(s);
       }
-<<<<<<< HEAD
-      var banner=document.getElementById('cookie-banner');
-      var accept=document.getElementById('cookie-accept');
-      var decline=document.getElementById('cookie-decline');
-      if(hasConsent()){ loadAds(); } else if(banner){ banner.hidden=false; }
-=======
+      function renderAds(){
+        var slots=document.querySelectorAll('ins.adsbygoogle:not([data-adsbygoogle-status])');
+        if(!slots.length) return;
+        try{ (adsbygoogle = window.adsbygoogle || []); }catch(e){ return; }
+        slots.forEach(function(){ try{ (adsbygoogle = window.adsbygoogle || []).push({}); }catch(e){} });
+      }
       function tryEnableAds(){
         if(localStorage.getItem('consent.ads')==='yes'){
           var contentEl=document.getElementById('content');
-          if(contentEl && contentEl.textContent.trim().length > 60){ loadAds(); return true; }
+          if(contentEl && contentEl.textContent.trim().length > 60){ loadAds(); renderAds(); return true; }
         }
         return false;
       }
@@ -78,8 +86,7 @@
           window.addEventListener('content:ready', tryEnableAds, { once:true });
         }
       }
->>>>>>> origin/feature/adsense-compliance
-      accept && accept.addEventListener('click',function(){ localStorage.setItem('consent.ads','yes'); banner.hidden=true; loadAds(); });
+      accept && accept.addEventListener('click',function(){ localStorage.setItem('consent.ads','yes'); banner.hidden=true; loadAds(); renderAds(); });
       decline && decline.addEventListener('click',function(){ localStorage.setItem('consent.ads','no'); banner.hidden=true; });
     })();
   </script>
