@@ -7,6 +7,8 @@
   <meta name="google-adsense-account" content="ca-pub-5183890456253667">
   <title>Érettségire</title>
   <link rel="stylesheet" href="style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5183890456253667"
+     crossorigin="anonymous"></script>
 </head>
 <body>
   <header class="site-header">
@@ -89,7 +91,7 @@
       function hasConsent(){ return localStorage.getItem(key)==='yes'; }
       function setConsent(v){ localStorage.setItem(key, v?'yes':'no'); }
       function loadAds(){
-        if(document.querySelector('script[data-adsbygoogle]')) return;
+        if(document.querySelector("script[src*='pagead2.googlesyndication.com/pagead/js/adsbygoogle.js']")) return;
         var s=document.createElement('script');
         s.async=true; s.setAttribute('data-adsbygoogle','true');
         s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5183890456253667';
