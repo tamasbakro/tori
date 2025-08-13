@@ -117,9 +117,7 @@
       var decline=document.getElementById('cookie-decline');
       function tryEnableAdsWhenContentReady(){
         if(!hasConsent()) return;
-        var contentEl=document.getElementById('content');
-        if(contentEl && contentEl.textContent.trim().length > 60){ loadAds(); renderAds(); return true; }
-        return false;
+        loadAds(); renderAds(); return true;
       }
       if(!hasConsent() && banner){ banner.hidden=false; }
       if(hasConsent()){
