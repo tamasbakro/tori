@@ -32,6 +32,12 @@
       </form>
     </div>
   </main>
+  <ins class="adsbygoogle"
+       style="display:block; text-align:center; margin: 1rem 0;"
+       data-ad-layout="in-article"
+       data-ad-format="fluid"
+       data-ad-client="ca-pub-5183890456253667"
+       data-ad-slot="7087457333"></ins>
   <footer class="site-footer">
     <div>© <span id="year"></span> advdio.me</div>
     <div class="footer-links">
@@ -55,17 +61,20 @@
         if(document.querySelector('script[data-adsbygoogle]')) return;
         var s=document.createElement('script'); s.async=true; s.setAttribute('data-adsbygoogle','true');
         s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5183890456253667'; s.crossOrigin='anonymous';
+        s.onload=function(){ renderAds(); };
         document.head.appendChild(s);
       }
-<<<<<<< HEAD
-      var key='consent.ads', banner=document.getElementById('cookie-banner');
-      if(localStorage.getItem(key)==='yes'){ loadAds(); } else if(banner){ banner.hidden=false; }
-=======
+      function renderAds(){
+        var slots=document.querySelectorAll('ins.adsbygoogle:not([data-adsbygoogle-status])');
+        if(!slots.length) return;
+        try{ (adsbygoogle = window.adsbygoogle || []); }catch(e){ return; }
+        slots.forEach(function(){ try{ (adsbygoogle = window.adsbygoogle || []).push({}); }catch(e){} });
+      }
       function tryEnableAds(){
         var key='consent.ads';
         if(localStorage.getItem(key)==='yes'){
           var contentEl=document.getElementById('content');
-          if(contentEl && contentEl.textContent.trim().length > 60){ loadAds(); return true; }
+          if(contentEl && contentEl.textContent.trim().length > 60){ loadAds(); renderAds(); return true; }
         }
         return false;
       }
@@ -76,9 +85,8 @@
           window.addEventListener('content:ready', tryEnableAds, { once:true });
         }
       }
->>>>>>> origin/feature/adsense-compliance
       var a=document.getElementById('cookie-accept'), d=document.getElementById('cookie-decline');
-      a && a.addEventListener('click',function(){ localStorage.setItem(key,'yes'); banner.hidden=true; loadAds(); });
+      a && a.addEventListener('click',function(){ localStorage.setItem(key,'yes'); banner.hidden=true; loadAds(); renderAds(); });
       d && d.addEventListener('click',function(){ localStorage.setItem(key,'no'); banner.hidden=true; });
     })();
   </script>
