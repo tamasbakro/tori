@@ -74,8 +74,7 @@
       function tryEnableAds(){
         var key='consent.ads';
         if(localStorage.getItem(key)==='yes'){
-          var contentEl=document.getElementById('content');
-          if(contentEl && contentEl.textContent.trim().length > 60){ loadAds(); renderAds(); return true; }
+          loadAds(); renderAds(); return true;
         }
         return false;
       }
