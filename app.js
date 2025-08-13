@@ -77,7 +77,20 @@ function parseMarkdown(md) {
 function buildMenu(structure) {
   const menu = document.getElementById('menu');
   menu.innerHTML = '';
+  const search = document.getElementById('lesson-search');
+  const filterText = () => (search && search.value ? search.value.trim().toLowerCase() : '');
+  const matches = (title) => title.toLowerCase().includes(filterText());
+  const currentFilter = { value: '' };
+  if (search && !search._wired) {
+    search._wired = true;
+    search.addEventListener('input', () => {
+      currentFilter.value = filterText();
+      buildMenu(window.lessonStructure);
+    });
+  }
   structure.forEach((chapter, ci) => {
+    const chapterHasMatch = chapter.lessons.some(l => matches(l.title)) || matches(chapter.title);
+    if (filterText() && !chapterHasMatch) return;
     const chapterDiv = document.createElement('div');
     chapterDiv.className = 'chapter';
 
@@ -86,12 +99,14 @@ function buildMenu(structure) {
     chapterTitle.innerHTML = `${chapter.title} <span>▼</span>`;
     chapterTitle.onclick = () => {
       lessonList.classList.toggle('open');
+      chapterTitle.classList.toggle('open');
     };
 
     const lessonList = document.createElement('ul');
     lessonList.className = 'lesson-list';
 
     chapter.lessons.forEach((lesson, li) => {
+      if (filterText() && !(matches(lesson.title) || matches(chapter.title))) return;
       const lessonItem = document.createElement('li');
       const lessonLink = document.createElement('div');
       lessonLink.className = 'lesson-link';
@@ -170,6 +185,15 @@ window.addEventListener('DOMContentLoaded', () => {
     } else {
       quizMenu.addEventListener('click', () => { showQuizPage(); });
     }
+  }
+
+  // Sidebar toggle for mobile
+  const toggle = document.getElementById('sidebar-toggle');
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      const open = document.body.classList.toggle('nav-open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
   }
 });
 
