@@ -7,6 +7,8 @@
   <meta name="google-adsense-account" content="ca-pub-5183890456253667">
   <title>Felhasználási feltételek – Érettségire</title>
   <link rel="stylesheet" href="style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5183890456253667"
+     crossorigin="anonymous"></script>
 </head>
 <body>
   <header class="site-header">
@@ -52,7 +54,7 @@
     (function(){
       var y=document.getElementById('year'); if(y){ y.textContent=new Date().getFullYear(); }
       function loadAds(){
-        if(document.querySelector('script[data-adsbygoogle]')) return;
+        if(document.querySelector("script[src*='pagead2.googlesyndication.com/pagead/js/adsbygoogle.js']")) return;
         var s=document.createElement('script'); s.async=true; s.setAttribute('data-adsbygoogle','true');
         s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5183890456253667'; s.crossOrigin='anonymous';
         s.onload=function(){ renderAds(); };
