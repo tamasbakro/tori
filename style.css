@@ -268,3 +268,81 @@ body {
   border-radius: 8px; padding: 0.6rem 1rem; cursor: pointer;
 }
 .cookie-actions .secondary { background: #92817a; color: #fffbff; }
+
+/* Navigation enhancements */
+.visually-hidden { position: absolute; left: -9999px; }
+
+/* Sidebar search */
+#sidebar-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1rem 0;
+}
+#lesson-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #92817a;
+  background: #000500;
+  color: #f1dabf;
+}
+
+/* Breadcrumb and content navigation */
+.breadcrumb {
+  font-size: 0.95rem;
+  color: #92817a;
+  margin: 0 0 0.8rem 0;
+}
+.content-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.content-nav button {
+  background: #362417;
+  color: #f1dabf;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+}
+.content-nav button[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+/* Header toggle for mobile */
+.sidebar-toggle {
+  display: none;
+  background: #92817a33;
+  color: #f1dabf;
+  border: 1px solid #92817a55;
+  border-radius: 8px;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+  margin-left: 0.6rem;
+}
+
+/* Arrow rotation on open */
+.chapter-title span { transition: transform 0.2s; }
+.chapter-title.open span { transform: rotate(180deg); }
+
+/* Off-canvas sidebar behavior on small screens */
+@media (max-width: 900px) {
+  .sidebar-toggle { display: inline-block; }
+  #content { padding: 1.2rem 4vw; }
+  #sidebar {
+    position: fixed;
+    left: 0;
+    top: var(--header-h);
+    height: calc(100vh - var(--header-h));
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 1200;
+  }
+  body.nav-open #sidebar { transform: translateX(0); }
+}
+
+@media (max-width: 600px) {
+  #sidebar { width: 85vw; }
+}
