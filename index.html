@@ -46,6 +46,19 @@
         <h2>Üdvözöllek!</h2>
         <p>Nagyon ajánlom, hogy tanuljál, mert kakukk lesz neked.</p> 
       </div>
+      <!-- Ad unit -->
+      <ins class="adsbygoogle"
+           style="display:block; margin: 1rem 0;"
+           data-ad-client="ca-pub-5183890456253667"
+           data-ad-slot="3603507891"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <ins class="adsbygoogle"
+           style="display:block; text-align:center; margin: 1rem 0;"
+           data-ad-layout="in-article"
+           data-ad-format="fluid"
+           data-ad-client="ca-pub-5183890456253667"
+           data-ad-slot="7087457333"></ins>
     </main>
   </div>
   <footer class="site-footer">
@@ -80,18 +93,27 @@
         var s=document.createElement('script');
         s.async=true; s.setAttribute('data-adsbygoogle','true');
         s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5183890456253667';
-        s.crossOrigin='anonymous'; document.head.appendChild(s);
+        s.crossOrigin='anonymous';
+        s.onload=function(){
+          renderAds();
+        };
+        document.head.appendChild(s);
+      }
+      function renderAds(){
+        var slots=document.querySelectorAll('ins.adsbygoogle:not([data-adsbygoogle-status])');
+        if(!slots.length) return;
+        try{ (adsbygoogle = window.adsbygoogle || []); }catch(e){ return; }
+        slots.forEach(function(){
+          try{ (adsbygoogle = window.adsbygoogle || []).push({}); }catch(e){}
+        });
       }
       var banner=document.getElementById('cookie-banner');
       var accept=document.getElementById('cookie-accept');
       var decline=document.getElementById('cookie-decline');
-<<<<<<< HEAD
-      if(hasConsent()){ loadAds(); } else if(banner){ banner.hidden=false; }
-=======
       function tryEnableAdsWhenContentReady(){
         if(!hasConsent()) return;
         var contentEl=document.getElementById('content');
-        if(contentEl && contentEl.textContent.trim().length > 60){ loadAds(); return true; }
+        if(contentEl && contentEl.textContent.trim().length > 60){ loadAds(); renderAds(); return true; }
         return false;
       }
       if(!hasConsent() && banner){ banner.hidden=false; }
@@ -100,8 +122,7 @@
           window.addEventListener('content:ready', tryEnableAdsWhenContentReady, { once:true });
         }
       }
->>>>>>> origin/feature/adsense-compliance
-      accept && accept.addEventListener('click',function(){ setConsent(true); banner.hidden=true; loadAds(); });
+      accept && accept.addEventListener('click',function(){ setConsent(true); banner.hidden=true; loadAds(); renderAds(); });
       decline && decline.addEventListener('click',function(){ setConsent(false); banner.hidden=true; });
     })();
   </script>
